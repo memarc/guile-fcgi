@@ -1,0 +1,38 @@
+# Copyright (C) 2000 Sergey A. Dolin <dsa@glug.org>
+#  
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without 
+# modifications, as long as this notice is preserved.
+# 
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+AC_INIT(reconf)
+AM_INIT_AUTOMAKE(guile-fcgi,0.1)
+#AM_PROG_LIBTOOL
+AC_PROG_CC
+AC_STDC_HEADERS
+#AC_PROG_RANLIB
+GUILE_FLAGS
+if test "x$FCGI_CFLAGS" = "x" -a "x$FCGI_LDFLAGS" = "x" ; then
+  FCGI_FLAGS
+fi
+
+saved_CFLAGS="$CFLAGS"
+saved_LDFLAGS="$LDFLAGS"
+CFLAGS="$CFLAGS $FCGI_CFLAGS"
+LDFLAGS="$LDFLAGS $FCGI_LDFLAGS"
+
+AC_CHECK_LIB(fcgi,FCGX_Accept,,AC_MSG_ERROR(Cannot find libfcgi (CFLAGS=$CFLAGS LDFLAGS=$LDFLAGS) on the system))
+
+CFLAGS=$saved_CFLAGS
+LDFLAGS=$saved_LDFLAGS
+
+GUILE_FCGI_STAMP=`date`
+AC_SUBST(GUILE_FCGI_STAMP)
+case "$GCC" in
+  yes )
+    CFLAGS="$CFLAGS -O0 -Wall";;
+esac
+AC_OUTPUT(Makefile src/Makefile)

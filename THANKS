@@ -1,0 +1,5 @@
+Guile FCGI THANKS file
+
+Guile FCGI has originally been written by Sergey A. Dolin
+Thanx to guile-pg authors for ideas properly writing configure.in
+amd Makefile.am.
